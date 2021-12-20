@@ -1,0 +1,30 @@
+{
+  "cardDetails": [
+    {
+      "id": "9e9e0960-2fe2-41ea-a845-d0690e326934",
+      "description": "Take Dog for walk",
+      "freeze": false,
+      "firstName": "Hg",
+      "lastName": "Jg",
+      "cardNumber": "6757575",
+      "expirationDate": "90-89",
+      "expirationDay": "76",
+      "LastDigits": "",
+      "cvvCode": "66",
+      "type": "jb"
+    },
+    {
+      "id": "c7179675-bb07-4d41-a05d-e0ec60e8616d",
+      "description": "Take Dog for walk",
+      "freeze": false,
+      "firstName": "John",
+      "lastName": "Cohn",
+      "cardNumber": "8999888766679998",
+      "expirationDate": "09-22",
+      "expirationDay": "tue",
+      "LastDigits": "9998",
+      "cvvCode": "oo7",
+      "type": "debit"
+    }
+  ]
+}
