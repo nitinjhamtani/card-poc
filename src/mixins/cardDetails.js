@@ -1,7 +1,7 @@
 // const axios = require("axios");
 import axios from 'axios';
 const apiUrl = "http://localhost:3000";
-let localStorageSetting = true;
+// let localStorageSetting = true;
 
 function uuidv4() {
   return "xxxxxxxx-xxxx-4xxx-yxxx-xxxxxxxxxxxx".replace(/[xy]/g, function(c) {
@@ -22,17 +22,16 @@ function uuidv4() {
 
 export const cardDetails = {
   methods: {
-    getLocalStorageSetting() {
-      return localStorageSetting;
-    },
-    setLocalStorageSetting(setting) {
-      localStorageSetting = setting;
-    },
-    getCardList() {
-      return axios.get(`${apiUrl}/cardDetails`);
-    },
+    // getLocalStorageSetting() {
+    //   return localStorageSetting;
+    // },
+    // setLocalStorageSetting(setting) {
+    //   localStorageSetting = setting;
+    // },
+    // getCardList() {
+    //   return axios.get(`${apiUrl}/cardDetails`);
+    // },
     addCard(data) {
-      // console.log("cardDetailscardDetails", data, cardDetails);
       data.id = uuidv4()
       return axios.post(`${apiUrl}/cardDetails`, data);
     },

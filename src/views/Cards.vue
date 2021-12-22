@@ -9,8 +9,7 @@
       height="50"
       class="my-toolbar px-0 py-0"
       elevation="0"
-      color="rgba(255, 0, 0, 0)"
-    >
+      color="rgba(255, 0, 0, 0)">
       <v-btn x-small text class="green-btn"> S$ </v-btn>
       <span class="px-3 amount-txt"> 3,000 </span>
       <v-spacer />
@@ -30,8 +29,7 @@
       :show-arrows="false"
       active-class="my-tab"
       color="white"
-      background-color="rgba(0, 0, 0, 0)"
-    >
+      background-color="rgba(0, 0, 0, 0)">
       <v-tabs-slider class="my-tab-slider"></v-tabs-slider>
       <v-tab :ripple="false" key="tab0">My debit cards</v-tab>
       <v-tab :ripple="false" key="tab1">All company cards</v-tab>
@@ -39,22 +37,20 @@
     <v-tabs-items
       :touchless="true"
       class="px-0 py-0 my-carousel-items"
-      v-model="tab"
-    >
+      v-model="tab">
       <v-tab-item class="mt-6" key="tab0">
         <carousel
           :paginationSize="6"
           :paginationPadding="3"
           :perPage="1"
           @pageChange="onPageChange"
-          paginationActiveColor="#01d167"
-        >
+          paginationActiveColor="#01d167">
           <slide
             :data-index="myDebitCard.id"
             :data-name="myDebitCard.id"
             :style="{opacity: myDebitCard.freeze ? '0.5' :'1'}"
             :key="'slide'+myDebitCard.id"
-            v-for="myDebitCard in this.myDebitCardList">
+            v-for="myDebitCard in getMyDebitCardList">
             <v-card elevation="0" class="px-4 py-0">
               <v-card-text class="my-card-text py-0 px-0">
                 <div class="py-0 my-card-number-wrapper">
@@ -119,13 +115,12 @@
           :paginationPadding="3"
           :perPage="1"
           @pageChange="onPageChange"
-          paginationActiveColor="#01d167"
-        >
+          paginationActiveColor="#01d167">
           <slide
             :data-index="myDebitCard.id"
             :data-name="myDebitCard.id"
             :key="'slide2'+myDebitCard.id"
-            v-for="myDebitCard in this.cardList">
+            v-for="myDebitCard in getMyCardList">
             <v-card elevation="0" class="px-4 py-0">
               <v-card-text class="my-card-text py-0 px-0">
                 <div class="py-0 my-card-number-wrapper">
@@ -197,8 +192,7 @@
         active-class="my-bottom-tab"
         background-color="#EDF3FF"
         icons-and-text
-        style="border-radius: 20px 20px 0px 0px"
-      >
+        style="border-radius: 20px 20px 0px 0px">
         <v-tab
           @click="toggleFreezeCard"
           class="mx-0 px-0">
@@ -219,8 +213,7 @@
         </v-tab>
         <v-tab
           @click="deleteMyCard"
-          class="mx-0 px-0"
-        >
+          class="mx-0 px-0">
           <p class="my-bottom-tab-text">Cancel<br />card</p>
           <v-icon size="30">$vuetify.icons.cancel_card_active</v-icon>
         </v-tab>
@@ -264,8 +257,7 @@
                 <v-list-item
                   class="px-0 py-3"
                   v-if="!item.divider"
-                  :key="item.id+'item'"
-                >
+                  :key="item.id+'item'">
                   <v-list-item-avatar
                     class="mt-2"
                     height="46px"
@@ -349,14 +341,12 @@
                   :key="index"
                 ></v-divider>
               </template>
-              
             </v-list>
             <v-btn
               text
               block
               color="#01d167"
-              class="view-transaction-btn"
-            >
+              class="view-transaction-btn">
               <span class="px-1 py-1 my-0 new-card-btn"> View all cards  transactions </span>
             </v-btn>
           </v-expansion-panel-content>
@@ -373,13 +363,12 @@
           Add new card
         </v-card-title>
         <v-card-text>
-          <v-form v-model="valid">
+          <v-form ref="form" v-model="valid">
             <v-container class="px-0 py-0">
               <v-row>
                 <v-col
                   cols="12"
-                  md="4"
-                >
+                  md="4">
                   <v-text-field
                     v-model="firstName"
                     :rules="nameRules"
@@ -394,7 +383,7 @@
                     required />
                   <v-text-field
                     v-model="cardType"
-                    :rules="nameRules"
+                    :rules="cardTypeRules"
                     label="Card Type"
                     required />
                   <v-text-field
@@ -404,19 +393,14 @@
                     required />
                   <v-text-field
                     v-model="cvvCode"
-                    :rules="cardNumberRules"
+                    :rules="cardCVVNumberRules"
                     label="Card CVV Number"
                     required />
-                  <v-text-field
-                    v-model="expirationDay"
-                    :rules="nameRules"
+                  <input
                     label="Card Day"
-                    required />
-                  <v-text-field
-                    v-model="expirationDate"
-                    :rules="nameRules"
-                    label="Card Date"
-                    required />
+                    type="date"
+                    required
+                    v-model="expirationDate" />
                 </v-col>
               </v-row>
             </v-container>
@@ -426,16 +410,14 @@
           <v-btn
             class="my-3 mx-3"
             color="error"
-            @click="dialog = false"
-          >
+            @click="dialog = false">
             Cancel
           </v-btn>
           <v-spacer></v-spacer>
           <v-btn
             class="my-3 mx-3"
             color="primary"
-            @click="addNewCard"
-          >
+            @click="addNewCard">
             Add
           </v-btn>
         </v-card-actions>
@@ -519,7 +501,6 @@ export default {
       cardFreeze: 'Freeze',
       cardItem:  {},
       cardList: [],
-      myDebitCardList: [],
       // form fields
       valid: false,
       cardId: null,
@@ -528,35 +509,52 @@ export default {
       cardType: '',
       cvvCode: '',
       cardNumber: '',
-      expirationDay: '',
       expirationDate: '',
       nameRules: [
-        v => !!v || 'Name is required',
-        v => v.length <= 10 || 'Name must be less than 10 characters',
+        v => !!v || 'Field is required',
+        v => v.length <= 10 || 'Field must have less than 10 characters',
+      ],
+      cardTypeRules: [
+        v => !!v || 'Field is required',
+        v => v?.length <= 5 || 'Type must be less than 5 characters',
+        v => v?.length <= 5 || 'Type must be less than 5 characters',
+        v => isNaN(v) || 'Only characters are allowed',
       ],
       cardNumberRules: [
         v => !!v || 'Number is required',
-        v => v.length <= 16 || 'Card Number must be 16 digits',
+        v => !isNaN(v) || 'Number is required',
+        v => v?.length <= 16 || 'Card Number must be 16 digits',
+        v => v?.length >= 16 || 'Card Number must be 16 digits',
+      ],
+      cardCVVNumberRules: [
+        v => !!v || 'Number is required',
+        v => !isNaN(v) || 'Number is required',
+        v => v?.length <= 3 || 'CVV must be 3 digits',
+        v => v?.length >= 3 || 'CVV must be 3 digits',
       ],
     };
   },
-  created() {},
-  mounted() {},
-  async beforeMount() {
-    await this.getAllCards();
+  async mounted() {
+    await this.fetch()
   },
   methods: {
-    async getAllCards() {
-      let response = await this.getCardList();
-      this.cardList = response.data;
-      this.myDebitCardList = this.cardList.filter(e => e.type).reverse();
-      this.cardItem = this.myDebitCardList[0]
-      this.cardId = this.cardItem.id
-      this.cardFreeze = !this.cardItem.freeze ? 'Freeze' : 'Un-Freeze'
+    async fetch()  {
+      await this.fetchMyDebitCardList()
+      await this.fetchMyCardList()
+    },
+    async fetchMyDebitCardList() {
+      await this.$store.dispatch("getMyDebitCardList", {
+          vm: this,
+      })
+    },
+    async fetchMyCardList() {
+      await this.$store.dispatch("getMyCardList", {
+          vm: this,
+      })
     },
     async addNewCard() {
       let formData  = {}
-      let newId  =  5+this.myDebitCardList.length++
+      let newId  =  5+this.getMyDebitCardList.length++
       if (this.valid) {
         formData  =  {
           id: newId,
@@ -566,36 +564,68 @@ export default {
           lastName: this.lastName.charAt(0).toUpperCase()+this.lastName.slice(1),
           cardNumber: this.cardNumber,
           expirationDate: this.expirationDate,
-          expirationDay: this.expirationDay,
+          expirationDay: ['Sun', 'Mon', 'Tue', 'Wed', 'Thu', 'Fri', 'Sat'][new Date(this.expirationDate).getDay()],
           LastDigits: this.cardNumber.slice(12, 16),
           cvvCode: this.cvvCode,
           type: this.cardType
         }
-        await this.addCard(formData);
-        await this.getAllCards();
+        await this.$store.dispatch("addCard", {
+          formData,
+          vm: this,
+        })
+        await this.fetch()
+        this.firstCard()
+        this.firstName= '',
+        this.lastName= '',
+        this.cardType= '',
+        this.cvvCode= '',
+        this.cardNumber= '',
+        this.expirationDate= '',
         this.dialog = false
       }
     },
     async deleteMyCard() {
       if (this.cardId) {
-        await this.deleteCard(this.cardId);
-        await this.getAllCards();
+        await this.$store.dispatch("deleteCard", {
+          id: this.cardId,
+          vm: this,
+        })
+        await this.fetch()
+        this.firstCard()
       }
+    },
+    firstCard() {
+      this.cardItem = this.getMyDebitCardList[0]
+      this.cardId = this.getMyDebitCardList[0].id
+      this.cardFreeze = !this.getMyDebitCardList[0].freeze ? 'Freeze' : 'Un-Freeze'
     },
     async toggleFreezeCard() {
-      if (this.cardId) {
-        this.cardItem.freeze = !this.cardItem.freeze
-        this.cardFreeze = !this.cardItem.freeze ? 'Freeze' : 'Un-Freeze'
-        await this.freezeCard(this.cardId, this.cardItem);
+      if (!this.cardId) {
+        this.firstCard()
       }
+      this.cardItem.freeze = !this.cardItem.freeze
+      this.cardFreeze = !this.cardItem.freeze ? 'Freeze' : 'Un-Freeze'
+      await this.$store.dispatch("freezeCard", {
+        id: this.cardId,
+        data: this.cardItem,
+        vm: this,
+      })
     },
     onPageChange(e) {
-      this.cardItem = this.myDebitCardList[e]
+      this.cardItem = this.getMyDebitCardList[e]
       this.cardId = this.cardItem.id
       this.cardFreeze = !this.cardItem.freeze ? 'Freeze' : 'Un-Freeze'
     },
   },
-  computed: {},
+  computed: {
+    getMyDebitCardList() {
+      let list = this.$store.getters?.getMyDebitCardList
+      return list
+    },
+    getMyCardList() {
+      return this.$store.getters?.getMyCardList
+    },
+  },
 };
 </script>
 <style scoped>

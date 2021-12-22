@@ -1,5 +1,6 @@
 import Vue from 'vue';
 import Vuetify from 'vuetify/lib';
+import LogoTextGreenBig from './icons/logo-text-green-big.vue';
 import LogoTextWhite from './icons/logo-text-white.vue';
 import LogoActive from './icons/logo-active.vue';
 import LogoInactive from './icons/logo-inactive';
@@ -38,6 +39,9 @@ export default new Vuetify({
       },
       logo_text_white: {
         component: LogoTextWhite,
+      },
+      logo_text_green_big: {
+        component: LogoTextGreenBig,
       },
       logo_active: {
         component: LogoActive,
